@@ -9,6 +9,40 @@ module.exports = (function ()
      *  @param {(node : AstNode) => boolean} handler
      *  @param {any} [thisArg]
      */
+    function walkPreOrder(astNode, handler)
+    {
+        var thisArg = arguments[2];
+
+        /** @type {AstNode[]} */var nodeStack = [];
+        nodeStack.push(astNode);
+
+        var shouldContinue = true;
+        while(shouldContinue && nodeStack.length > 0)
+        {
+            var node = nodeStack.pop();
+            shouldContinue = !((0, handler).call(thisArg, node));
+
+            if(shouldContinue)
+            {
+                if(!_isLeaf(node))
+                {
+                    for(var j = node.children.length, i = 0; i < node.children.length; ++i)
+                    {
+                        --j;
+                        nodeStack.push(node.children[j]);
+                    }
+                }
+            }
+        }
+
+        return shouldContinue;
+    }
+
+    /**
+     *  @param {AstNode} astNode
+     *  @param {(node : AstNode) => boolean} handler
+     *  @param {any} [thisArg]
+     */
     function walkPostOrder(astNode, handler)
     {
         var thisArg = arguments[2];
@@ -71,6 +105,7 @@ module.exports = (function ()
     }
 
     return {
+        walkPreOrder : walkPreOrder,
         walkPostOrder : walkPostOrder
     };
 })();

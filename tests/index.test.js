@@ -1,6 +1,10 @@
 const { assert } = require("chai");
 
-const { parse, walkPostOrder } = require("../src");
+const {
+    parse,
+    walkPostOrder,
+    walkPreOrder,
+} = require("../src");
 
 describe("Test", function ()
 {
@@ -42,7 +46,7 @@ describe("Test", function ()
 
         const node = parse(query);
         const logs = [];
-        walkPostOrder(node, _postOrderHandler, logs);
+        walkPostOrder(node, _traversalHandler, logs);
 
         assert.deepStrictEqual(logs, expectedLogs);
 
@@ -92,7 +96,7 @@ describe("Test", function ()
 
         const node = parse(query);
         const logs = [];
-        walkPostOrder(node, _postOrderHandler, logs);
+        walkPostOrder(node, _traversalHandler, logs);
 
         assert.deepStrictEqual(logs, expectedLogs);
 
@@ -162,7 +166,77 @@ describe("Test", function ()
 
         const node = parse(query);
         const logs = [];
-        walkPostOrder(node, _postOrderHandler, logs);
+        walkPostOrder(node, _traversalHandler, logs);
+
+        assert.deepStrictEqual(logs, expectedLogs);
+
+        done();
+    });
+
+    it("query 3 preorder", function (done)
+    {
+        const expectedLogs = [
+            "operator and",
+            "operator or",
+            "operator and",
+            "operator and",
+            "operator and",
+            "operator eq",
+            "operand path foo",
+            "operand value string a",
+            "operator and",
+            "operator gt",
+            "operand path bar",
+            "operand value number 3",
+            "operator and",
+            "operator and",
+            "operator and",
+            "operator eq",
+            "operand path foo",
+            "operand value string b",
+            "operator and",
+            "operator lt",
+            "operand path bar",
+            "operand value number 3",
+            "operator eq",
+            "operand path baz",
+            "operand value boolean false"
+        ];
+        const query = {
+            $or : [
+                {
+                    $and : [
+                        {
+                            foo : "a"
+                        },
+                        {
+                            bar : {
+                                $gt : 3
+                            }
+                        }
+                    ]
+                },
+                {
+                    $and : [
+                        {
+                            foo : "b"
+                        },
+                        {
+                            bar : {
+                                $lt : 3
+                            },
+                            baz : {
+                                $eq : false
+                            }
+                        }
+                    ]
+                }
+            ]
+        };
+
+        const node = parse(query);
+        const logs = [];
+        walkPreOrder(node, _traversalHandler, logs);
 
         assert.deepStrictEqual(logs, expectedLogs);
 
@@ -173,7 +247,7 @@ describe("Test", function ()
      *  @this {string[]}
      *  @param {AstNode} astNode
      */
-    function _postOrderHandler(astNode)
+    function _traversalHandler(astNode)
     {
         switch(astNode.nodeType)
         {
