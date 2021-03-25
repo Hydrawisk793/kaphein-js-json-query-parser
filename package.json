@@ -9,6 +9,15 @@
     "files": [
         "dist"
     ],
+    "keywords": [],
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Hydrawisk793/kaphein-js-json-query-parser.git"
+    },
+    "bugs": {
+        "url": "https://github.com/Hydrawisk793/kaphein-js-json-query-parser/issues"
+    },
+    "homepage": "https://github.com/Hydrawisk793/kaphein-js-json-query-parser#readme",
     "scripts": {
         "lint": "tsc --project tsconfig.dts.json && eslint src/**/*.js",
         "lint:fix": "npm run lint -- --fix",
