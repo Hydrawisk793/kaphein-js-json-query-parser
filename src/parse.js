@@ -1,6 +1,6 @@
-var kapheinJs = require("kaphein-js");
-var isString = kapheinJs.isString;
-var isNonNullObject = kapheinJs.isNonNullObject;
+var kapheinJsTypeTrait = require("kaphein-js-type-trait");
+var isString = kapheinJsTypeTrait.isString;
+var isNonNullObject = kapheinJsTypeTrait.isNonNullObject;
 
 module.exports = (function ()
 {

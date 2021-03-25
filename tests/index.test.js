@@ -1,4 +1,4 @@
-const { assert } = require("chai");
+const { expect } = require("chai");
 
 const {
     parse,
@@ -6,13 +6,13 @@ const {
     walkPreOrder,
 } = require("../src");
 
-describe("Test", function ()
+describe("kaphein-js-json-query-parser", function ()
 {
     /**
      *  @typedef {import("../src").AstNode} AstNode
      */
 
-    it("query 1", function (done)
+    it("query 1", function ()
     {
         const expectedLogs = [
             "operand path foo",
@@ -48,12 +48,10 @@ describe("Test", function ()
         const logs = [];
         walkPostOrder(node, _traversalHandler, logs);
 
-        assert.deepStrictEqual(logs, expectedLogs);
-
-        done();
+        expect(logs).to.deep.equal(expectedLogs);
     });
 
-    it("query 2", function (done)
+    it("query 2", function ()
     {
         const expectedLogs = [
             "operand path price",
@@ -98,12 +96,10 @@ describe("Test", function ()
         const logs = [];
         walkPostOrder(node, _traversalHandler, logs);
 
-        assert.deepStrictEqual(logs, expectedLogs);
-
-        done();
+        expect(logs).to.deep.equal(expectedLogs);
     });
 
-    it("query 3", function (done)
+    it("query 3", function ()
     {
         const expectedLogs = [
             "operand path foo",
@@ -168,12 +164,10 @@ describe("Test", function ()
         const logs = [];
         walkPostOrder(node, _traversalHandler, logs);
 
-        assert.deepStrictEqual(logs, expectedLogs);
-
-        done();
+        expect(logs).to.deep.equal(expectedLogs);
     });
 
-    it("query 3 preorder", function (done)
+    it("query 3 preorder", function ()
     {
         const expectedLogs = [
             "operator and",
@@ -238,9 +232,7 @@ describe("Test", function ()
         const logs = [];
         walkPreOrder(node, _traversalHandler, logs);
 
-        assert.deepStrictEqual(logs, expectedLogs);
-
-        done();
+        expect(logs).to.deep.equal(expectedLogs);
     });
 
     /**
